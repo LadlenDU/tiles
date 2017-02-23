@@ -21,9 +21,9 @@ $this->title = Html::createTitle('главная страница');
 </form>
 
 <div>
-<?php foreach ($values->images as $img): ?>
-<div class="image">
-    <img src="<?php Html::mkLnk('/image?src=' . urlencode($img['src'])) ?>">
-</div>
-<?php endforeach; ?>
+    <?php foreach ($values->images as $img): ?>
+        <div class="image">
+            <img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>">
+        </div>
+    <?php endforeach; ?>
 </div>
