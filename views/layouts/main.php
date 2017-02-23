@@ -46,6 +46,9 @@ use app\core\Csrf;
 
         .image img {
             max-height: <?php echo Config::inst()->gallery['image_max_height'] ?>px;
+            position: relative;
+            top: 0;
+            left: 0;
         }
 
         #img_container {

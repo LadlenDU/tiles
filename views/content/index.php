@@ -11,15 +11,28 @@ $this->title = Html::createTitle('главная страница');
     // <![CDATA[
     $(document).ready(function () {
 
-        var gap = <?php echo Config::inst()->gallery['gap'] ?>;
+        var gapWidth = <?php echo Config::inst()->gallery['gap'] ?>;
 
         function align() {
-            var rowWidth = 0;
             var containerWidth = $("#img_container").width();
+
+            var rowWidth = 0;
+            var rowImgWidths = [];
+
             $("#img_container .image img").each(function (index, elem) {
-                rowWidth += elem.width + gap;
-                if (rowWidth > containerWidth) {
-                    
+                rowWidth += elem.width;
+                rowImgWidths.push(elem.width);
+                if (rowWidth >= containerWidth) {
+                    elem.parent().addClass("last");
+
+                    var gapWidths = (rowImgWidths.length - 1) * gapWidth;
+                    var allImagesWidths = containerWidth - gapWidth;
+
+                    rowWidth = 0;
+                    rowImgWidths = [];
+                } else {
+                    elem.parent().removeClass("last");
+                    rowWidth += gapWidth;
                 }
             });
         }
