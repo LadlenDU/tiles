@@ -42,17 +42,24 @@ use app\core\Csrf;
 
         .image.last {
             margin-right: 0;
+            clear: right;
+        }
+
+        #img_container {
+            width: 1000px;
         }
 
         .image img {
             max-height: <?php echo Config::inst()->gallery['image_max_height'] ?>px;
             position: relative;
             top: 0;
-            left: 0;
+            left: 50%;
         }
 
-        #img_container {
-            width: 100%;
+        .shrink-wrap {
+            float: right;
+            position: relative;
+            left: -50%;
         }
     </style>
 </head>

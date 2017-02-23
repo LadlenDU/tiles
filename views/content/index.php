@@ -11,37 +11,53 @@ $this->title = Html::createTitle('главная страница');
     // <![CDATA[
     $(document).ready(function () {
 
-        var gapWidth = <?php echo Config::inst()->gallery['gap'] ?>;
+        var gap = <?php echo Config::inst()->gallery['gap'] ?>;
+
+        var resize = true;
 
         function align() {
-            var containerWidth = $("#img_container").width();
+            if (resize) {
+                resize = false;
+                var containerWidth = $("#img_container").width();
+                //alert(containerWidth);
 
-            var rowWidth = 0;
-            var rowImgWidths = [];
+                var rowWidth = 0;
+                var rowImages = [];
 
-            $("#img_container .image img").each(function (index, elem) {
-                rowWidth += elem.width;
-                rowImgWidths.push(elem.width);
-                if (rowWidth >= containerWidth) {
-                    elem.parent().addClass("last");
+                $("#img_container .image .shrink-wrap img").each(function (index, elem) {
+                    elem = $(elem);
+                    var elWrapper = elem.parents(".image");
+                    rowWidth += elem.width();
+                    rowImages.push(elem);
+                    if (rowWidth >= containerWidth) {
+                        elWrapper.addClass("last");
 
-                    var gapWidths = (rowImgWidths.length - 1) * gapWidth;
-                    var allImagesWidths = containerWidth - gapWidth;
+                        var gapWidths = (rowImages.length - 1) * gap;
+                        var allImagesWidths = containerWidth - gapWidths;
 
-                    rowWidth = 0;
-                    rowImgWidths = [];
-                } else {
-                    elem.parent().removeClass("last");
-                    rowWidth += gapWidth;
-                }
-            });
+                        var ratio = allImagesWidths / rowWidth;
+
+                        $.each(rowImages, function (index, elem) {
+                            var elWrapper = elem.parents(".image");
+                            elWrapper.width(elem.width() * ratio);
+                        });
+
+                        rowWidth = 0;
+                        rowImages = [];
+                    } else {
+                        elWrapper.removeClass("last");
+                        rowWidth += gap;
+                    }
+                });
+                resize = true;
+            }
         }
 
         //align();
 
-        $(window).resize(function () {
+        /*$(window).resize(function () {
             align();
-        });
+        });*/
 
         $("#img_container .image img").load(function () {
             align();
@@ -58,7 +74,9 @@ $this->title = Html::createTitle('главная страница');
 <div id="img_container">
     <?php foreach ($values->images as $img): ?>
         <div class="image">
-            <img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>">
+            <div class="shrink-wrap">
+                <img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>">
+            </div>
         </div>
     <?php endforeach; ?>
 </div>
