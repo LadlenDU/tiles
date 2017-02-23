@@ -10,7 +10,29 @@ $this->title = Html::createTitle('главная страница');
 <script type="text/javascript">
     // <![CDATA[
     $(document).ready(function () {
-        $('#book_list').DataTable(app.dataTableInfo);
+
+        var gap = <?php echo Config::inst()->gallery['gap'] ?>;
+
+        function align() {
+            var rowWidth = 0;
+            var containerWidth = $("#img_container").width();
+            $("#img_container .image img").each(function (index, elem) {
+                rowWidth += elem.width + gap;
+                if (rowWidth > containerWidth) {
+                    
+                }
+            });
+        }
+
+        //align();
+
+        $(window).resize(function () {
+            align();
+        });
+
+        $("#img_container .image img").load(function () {
+            align();
+        });
     });
     // ]]>
 </script>
@@ -20,7 +42,7 @@ $this->title = Html::createTitle('главная страница');
     <input type="submit" value="ОТПРАВИТЬ">
 </form>
 
-<div>
+<div id="img_container">
     <?php foreach ($values->images as $img): ?>
         <div class="image">
             <img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>">

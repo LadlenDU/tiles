@@ -11,21 +11,13 @@ $config = [
             'all'   // 'all' - Сохранение всех типов логов.
         ]
     ],
-    'image' => [
-        // Максимальный размер загружаемого изображения.
-        'max_file_size' => '2097152',   // 2M - должно быть не больше чем upload_max_filesize в php.ini
-        // Расширения поддерживаемых типов изображений.
-        'types_allowed_extension' => ['jpg', 'jpeg', 'gif', 'png'],
-        // MIME типы поддерживаемых изображений.
-        'types_allowed_mime' => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png'],
-        // Максимальный размер, до которого необходимо уменьшить изображение.
-        'resize_max_size' => ['height' => 200],
+    'gallery' => [
+        // Максимальная высота изображения (в пикселях).
+        'image_max_height' => 200,
+        // Отступ между изображениями (в пикселях).
+        'gap' => 8,
     ],
     'globalEncoding' => 'UTF-8',
-    'csrf' => [
-        'salt' => 'pfbr6as',
-        'tokenName' => '_csrf',
-    ],
     // Отладочный режим.
     'debug' => true,
 ];
