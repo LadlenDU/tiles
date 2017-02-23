@@ -1,7 +1,9 @@
 <?php
 /* @var $this app\core\View */
+/* @var $values \app\core\Container */
 
 use app\helpers\Html;
+use app\core\Config;
 
 $this->title = Html::createTitle('главная страница');
 ?>
@@ -12,37 +14,16 @@ $this->title = Html::createTitle('главная страница');
     });
     // ]]>
 </script>
-<table id="book_list" class="display" width="100%" cellspacing="0">
-    <thead>
-    <tr>
-        <th>Название</th>
-        <th>Автор</th>
-        <th>Издательство</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <th>Название</th>
-        <th>Автор</th>
-        <th>Издательство</th>
-    </tr>
-    </tfoot>
-    <tbody>
-    <!--<tr>
-        <td>Tiger Nixon</td>
-        <td>System Architect</td>
-        <td>Edinburgh</td>
-        <td>61</td>
-        <td>2011/04/25</td>
-        <td>$320,800</td>
-    </tr>
-    <tr>
-        <td>Garrett Winters</td>
-        <td>Accountant</td>
-        <td>Tokyo</td>
-        <td>63</td>
-        <td>2011/07/25</td>
-        <td>$170,750</td>
-    </tr>-->
-    </tbody>
-</table>
+
+<form enctype="multipart/form-data" method="post" class="upload_file">
+    <input type="file" name="file">
+    <input type="submit" value="ОТПРАВИТЬ">
+</form>
+
+<div>
+<?php foreach ($values->images as $img): ?>
+<div class="image">
+    <img src="<?php Html::mkLnk('/image?src=' . urlencode($img['src'])) ?>">
+</div>
+<?php endforeach; ?>
+</div>

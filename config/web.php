@@ -14,13 +14,12 @@ $config = [
     'image' => [
         // Максимальный размер загружаемого изображения.
         'max_file_size' => '2097152',   // 2M - должно быть не больше чем upload_max_filesize в php.ini
-        #'max_file_size' => '52',
         // Расширения поддерживаемых типов изображений.
         'types_allowed_extension' => ['jpg', 'jpeg', 'gif', 'png'],
         // MIME типы поддерживаемых изображений.
         'types_allowed_mime' => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png'],
-        // Максимальный размер миниатюры.
-        'max_thumb_size' => ['width' => 150, 'height' => 150],
+        // Максимальный размер, до которого необходимо уменьшить изображение.
+        'resize_max_size' => ['height' => 200],
     ],
     'globalEncoding' => 'UTF-8',
     'csrf' => [

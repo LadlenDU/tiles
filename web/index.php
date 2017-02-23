@@ -30,30 +30,12 @@ else
 }
 
 assert(
-    Config::inst()->user['image']['max_file_size'] <= Helper::shorthandNotationToBytes(ini_get('upload_max_filesize')),
+    Config::inst()->image['max_file_size'] <= Helper::shorthandNotationToBytes(ini_get('upload_max_filesize')),
     'Uploaded image size is bigger than php.ini upload_max_filesize.'
 );
 
 try
 {
-    if (!Csrf::inst()->validateCsrfToken())
-    {
-        //TODO: похоже неправильное поведение (см. validateCsrfToken())
-        Web::redirect('', ['wrong_csrf_token' => 1]);
-    }
-
-    $class = Router::inst()->getClass();
-    $act = Router::inst()->getAction();
-
-    // Проверка на то что cookies включены.
-    if (empty($_COOKIE[ini_get('session.name')]) &&
-        (Router::inst()->getClass() != '\\app\\controllers\\Controller'
-            || Router::inst()->getAction() != 'actionCheckCookies')
-    )
-    {
-        Web::redirect('', ['action' => 'checkCookies', 'ret_path' => $_SERVER['REQUEST_URI']]);
-    }
-
     Router::inst()->run();
 }
 catch (\Exception $e)
