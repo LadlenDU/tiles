@@ -22,7 +22,6 @@ use app\core\Csrf;
         * {
             margin: 0;
             padding: 0;
-            /*border: 0;*/
         }
 
         html, body {
@@ -30,27 +29,34 @@ use app\core\Csrf;
         }
 
         .container {
-            width: 100%;
+            width: 90%;
+            margin: 20px auto;
+            position: relative;
         }
 
         .image {
             /*float: left;*/
-            display: inline-block;
+            /*display: inline-block;*/
             height: <?php echo Config::inst()->gallery['image_max_height'] ?>px;
-            margin-right: <?php echo Config::inst()->gallery['gap'] ?>px;
-            margin-bottom: <?php echo Config::inst()->gallery['gap'] ?>px;
+            /*margin-right:
+        <?php echo Config::inst()->gallery['gap'] ?> px;
+            margin-bottom:
+        <?php echo Config::inst()->gallery['gap'] ?> px;*/
             overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        .image.last {
+        /*.image.last {
             margin-right: 0;
-            /*clear: right;*/
-        }
+        }*/
 
         #img_container {
-            /*width: 1000px;*/
             position: absolute;
             background-color: red;
+            overflow: visible;
+            width: 100%;
         }
 
         .image img {

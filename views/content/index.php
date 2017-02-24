@@ -12,6 +12,7 @@ $this->title = Html::createTitle('главная страница');
     $(document).ready(function () {
 
         var gap = <?php echo Config::inst()->gallery['gap'] ?>;
+        var height = <?php echo Config::inst()->gallery['image_max_height'] ?>;
 
         var resize = true;
 
@@ -22,54 +23,51 @@ $this->title = Html::createTitle('главная страница');
                 //alert(containerWidth);
 
                 var rowWidth = 0;
+                var imgRowWidth = 0;
                 var rowImages = [];
 
-                var newWidths = [];
+                var row = 0;
 
                 $("#img_container .image .shrink-wrap img").each(function (index, elem) {
                     elem = $(elem);
                     var elWrapper = elem.parents(".image");
                     rowWidth += elem.width();
+                    imgRowWidth += elem.width();
+
+                    //elWrapper.css("clear", (rowImages.length == 0) ? "left" : "none");
+
                     rowImages.push(elem);
                     if (rowWidth >= containerWidth) {
+                        $("#img_container").height((row + 1) * (height + gap));
+
                         elWrapper.addClass("last");
 
                         var gapWidths = (rowImages.length - 1) * gap;
                         var allImagesWidths = containerWidth - gapWidths;
 
-                        var ratio = allImagesWidths / rowWidth;
+                        var ratio = allImagesWidths / imgRowWidth;
 
                         var allW = 0;
 
-                        /*$.each(rowImages, function (index, elem) {
-                            var elWrapper = elem.parents(".image");
-
-                            if (index < rowImages.length - 1) {
-                                allW += ceil(elem.width() * ratio);
-                                newWidths.push((ceil(elem.width() * ratio));
-                            } else {
-                                newWidths.push(allImagesWidths - allW);
-                            }
-                        });
-
-                        $.each(rowImages, function (index, elem) {
-                            var elWrapper = elem.parents(".image");
-                            elWrapper.width(newWidths[index]);
-                        });*/
+                        var left = 0;
 
                         $.each(rowImages, function (index, elem) {
                             var elWrapper = elem.parents(".image");
 
-                            if (index < rowImages.length - 1) {
-                                allW += Math.ceil(elem.width() * ratio);
-                                elWrapper.width(Math.ceil(elem.width() * ratio));
-                            } else {
-                                elWrapper.width(allImagesWidths - allW);
-                            }
+                            elWrapper.css("top", (row * (height + gap)) + "px");
+
+                            var width = (index < rowImages.length - 1) ? Math.ceil(elem.width() * ratio) : (allImagesWidths - allW);
+                            allW += width;
+                            elWrapper.width(width);
+
+                            elWrapper.css("left", left + "px");
+                            left += width + gap;
                         });
 
                         rowWidth = 0;
+                        imgRowWidth = 0;
                         rowImages = [];
+                        row++;
                     } else {
                         elWrapper.removeClass("last");
                         rowWidth += gap;
