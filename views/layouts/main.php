@@ -15,7 +15,10 @@ use app\helpers\Html;
 
     <link href="<?php Html::mkLnk('/favicon.ico') ?>" rel="icon" type="image/x-icon"/>
 
+    <link href="<?php Html::mkLnk('/css/loading.min.css') ?>" rel="stylesheet">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="<?php Html::mkLnk('/js/jquery.loading.min.js') ?>"></script>
 
     <style type="text/css">
         * {

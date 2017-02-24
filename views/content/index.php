@@ -11,10 +11,13 @@ $this->title = Html::createTitle('главная страница');
     // <![CDATA[
     $(document).ready(function () {
 
+        var images = [];
+
         $('.upload_file').submit(function () {
             var file_data = $('.upload_file [name="file"]').prop('files')[0];
             var form_data = new FormData();
             form_data.append('file', file_data);
+            $.showLoading();
             $.ajax({
                 url: "<?php Html::mkLnk('/?action=loadImages') ?>",
                 dataType: 'json',
@@ -25,18 +28,25 @@ $this->title = Html::createTitle('главная страница');
                 type: 'post',
                 success: function (data) {
                     for (var ind in data) {
-                        var url = encodeURIComponent(data[ind]);
-                        var s = '<div class="image"><div class="shrink-wrap">\
+                        if ($.inArray(data[ind], images) == -1) {
+                            images.push(data[ind]);
+                            var url = encodeURIComponent(data[ind]);
+                            var s = '<div class="image"><div class="shrink-wrap">\
                             <img alt="" src="<?php Html::mkLnk('/?action=image&src=') ?>' + url + '">\
                             </div></div>';
 
-                        $("#img_container").append(s);
+                            var newObj = $(s);
+                            $(s).find("img").load(function () {
+                                align();
+                            });
+
+                            $("#img_container").append(newObj);
+                        }
                     }
                     align();
-                    $("#img_container .image img").load(function () {
-                        align();
-                    });
                 }
+            }).always(function () {
+                $.hideLoading();
             });
             return false;
         });

@@ -9,7 +9,7 @@ class Controller extends \app\core\Controller
 {
     public function actionIndex()
     {
-        $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-7.jpg';
+        /*$images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-7.jpg';
         $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-18.jpg';
         $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-45.jpg';
         $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-29.jpg';
@@ -21,7 +21,9 @@ class Controller extends \app\core\Controller
         $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-24.jpg';
         $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-4.jpg';
         $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-8.jpg';
-        $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-48.jpg';
+        $images[] = 'https://tile.expert/img_lb/Dune/Megalos-Ceramic/per_sito/ambienti/z_Megalos%20Ceramic-Dune-48.jpg';*/
+
+        $images = [];
 
         return $this->render('index', new Container(['images' => $images]));
     }
@@ -35,11 +37,11 @@ class Controller extends \app\core\Controller
             $content = file_get_contents($_FILES['file']['tmp_name']);
             $content = preg_split('/\r\n|\r|\n/', $content);
             $content = array_filter($content);
+            $content = array_unique($content);
             foreach ($content as $str)
             {
-                #$headers = @get_headers($str);
-                #if (strpos($headers[0], '200') !== false)
-                if (1)
+                $headers = @get_headers($str);
+                if (strpos($headers[0], '200') !== false)
                 {
                     $validLinks[] = $str;
                 }
