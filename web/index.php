@@ -28,11 +28,6 @@ else
     ini_set('display_errors', 0);
 }
 
-assert(
-    Config::inst()->image['max_file_size'] <= Helper::shorthandNotationToBytes(ini_get('upload_max_filesize')),
-    'Uploaded image size is bigger than php.ini upload_max_filesize.'
-);
-
 try
 {
     Router::inst()->run();
