@@ -94,9 +94,10 @@ $this->title = Html::createTitle('главная страница');
     // ]]>
 </script>
 
+Загрузить файл со ссылками на изображения:<br>
 <form enctype="multipart/form-data" method="post" class="upload_file">
     <input type="file" name="file">
-    <input type="submit" value="ОТПРАВИТЬ">
+    <input type="submit" value="Загрузить">
 </form>
 
 <div id="img_container">

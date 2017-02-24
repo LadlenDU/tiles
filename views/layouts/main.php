@@ -61,6 +61,10 @@ use app\core\Csrf;
             position: relative;
             left: -50%;
         }
+
+        .upload_file {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>

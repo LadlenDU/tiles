@@ -3,8 +3,7 @@
 namespace app\controllers;
 
 use app\core\Container;
-use app\core\Web;
-use app\models\Language;
+use app\core\Config;
 
 class Controller extends \app\core\Controller
 {
@@ -29,7 +28,20 @@ class Controller extends \app\core\Controller
 
     public function actionImage()
     {
-        echo file_get_contents($_GET['src']);
+        if ($imgHandle = imagecreatefromstring(file_get_contents($_GET['src'])))
+        {
+            //$width = imagesx($imgHandle);
+            //$height = imagesy($imgHandle);
+
+            $textcolor = imagecolorallocatealpha($imgHandle, 255, 255, 255, 30);
+            $font_file = Config::inst()->appDir . 'data/font.ttf';
+            imagefttext($imgHandle, 40, 0, 100, 100, $textcolor, $font_file, 'Watermark');
+
+            header('Content-type: image/jpeg');
+            imagejpeg($imgHandle);
+
+            imagedestroy($imgHandle);
+        }
     }
 
     public function action404()
