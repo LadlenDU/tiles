@@ -28,15 +28,18 @@ class Controller extends \app\core\Controller
 
     public function actionLoadImages()
     {
-        if (!empty($_FILES['userfile']['tmp_name']))
+        if (!empty($_FILES['file']['tmp_name']))
         {
             $validLinks = [];
 
-            $content = file($_FILES['userfile']['tmp_name']);
+            $content = file_get_contents($_FILES['file']['tmp_name']);
+            $content = preg_split('/\r\n|\r|\n/', $content);
+            $content = array_filter($content);
             foreach ($content as $str)
             {
-                $headers = @get_headers($str);
-                if (strpos($headers[0], '200') !== false)
+                #$headers = @get_headers($str);
+                #if (strpos($headers[0], '200') !== false)
+                if (1)
                 {
                     $validLinks[] = $str;
                 }

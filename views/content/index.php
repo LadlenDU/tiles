@@ -11,6 +11,36 @@ $this->title = Html::createTitle('главная страница');
     // <![CDATA[
     $(document).ready(function () {
 
+        $('.upload_file').submit(function () {
+            var file_data = $('.upload_file [name="file"]').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            $.ajax({
+                url: "<?php Html::mkLnk('/?action=loadImages') ?>",
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (data) {
+                    for (var ind in data) {
+                        var url = encodeURIComponent(data[ind]);
+                        var s = '<div class="image"><div class="shrink-wrap">\
+                            <img alt="" src="<?php Html::mkLnk('/?action=image&src=') ?>' + url + '">\
+                            </div></div>';
+
+                        $("#img_container").append(s);
+                    }
+                    align();
+                    $("#img_container .image img").load(function () {
+                        align();
+                    });
+                }
+            });
+            return false;
+        });
+
         var gap = <?php echo Config::inst()->gallery['gap'] ?>;
         var height = <?php echo Config::inst()->gallery['image_max_height'] ?>;
 
@@ -103,6 +133,9 @@ $this->title = Html::createTitle('главная страница');
 <div id="img_container">
     <?php foreach ($values->images as $img): ?>
         <div class="image">
-        <div class="shrink-wrap"><img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>"></div>
-        </div><?php endforeach; ?>
+            <div class="shrink-wrap">
+                <img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>">
+            </div>
+        </div>
+    <?php endforeach; ?>
 </div>

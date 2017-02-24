@@ -3,9 +3,8 @@
 /* @var $this app\core\View */
 /* @var $values app\core\Container */
 
-use app\helpers\Html;
 use app\core\Config;
-use app\core\Csrf;
+use app\helpers\Html;
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +13,7 @@ use app\core\Csrf;
     <meta charset="<?php echo Config::inst()->globalEncoding ?>"/>
     <title><?php echo $this->title ?></title>
 
-    <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link href="<?php Html::mkLnk('/favicon.ico') ?>" rel="icon" type="image/x-icon"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
