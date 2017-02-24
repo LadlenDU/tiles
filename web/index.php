@@ -2,7 +2,6 @@
 
 use app\core\Web;
 use app\core\Config;
-use app\core\Csrf;
 use app\core\Router;
 use app\helpers\Helper;
 

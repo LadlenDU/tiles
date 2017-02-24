@@ -26,6 +26,27 @@ class Controller extends \app\core\Controller
         return $this->render('index', new Container(['images' => $images]));
     }
 
+    public function actionLoadImages()
+    {
+        if (!empty($_FILES['userfile']['tmp_name']))
+        {
+            $validLinks = [];
+
+            $content = file($_FILES['userfile']['tmp_name']);
+            foreach ($content as $str)
+            {
+                $headers = @get_headers($str);
+                if (strpos($headers[0], '200') !== false)
+                {
+                    $validLinks[] = $str;
+                }
+            }
+
+            header('Content-Type: application/json');
+            die(json_encode($validLinks));
+        }
+    }
+
     public function actionImage()
     {
         if ($imgHandle = imagecreatefromstring(file_get_contents($_GET['src'])))
