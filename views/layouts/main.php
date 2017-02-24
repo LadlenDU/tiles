@@ -35,26 +35,15 @@ use app\core\Csrf;
         }
 
         .image {
-            /*float: left;*/
-            /*display: inline-block;*/
-            height: <?php echo Config::inst()->gallery['image_max_height'] ?>px;
-            /*margin-right:
-        <?php echo Config::inst()->gallery['gap'] ?> px;
-            margin-bottom:
-        <?php echo Config::inst()->gallery['gap'] ?> px;*/
             overflow: hidden;
             position: absolute;
             top: 0;
             left: 0;
         }
 
-        /*.image.last {
-            margin-right: 0;
-        }*/
-
         #img_container {
-            position: absolute;
-            background-color: red;
+            position: relative;
+            /*background-color: red;*/
             overflow: visible;
             width: 100%;
         }

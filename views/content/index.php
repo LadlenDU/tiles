@@ -14,70 +14,74 @@ $this->title = Html::createTitle('главная страница');
         var gap = <?php echo Config::inst()->gallery['gap'] ?>;
         var height = <?php echo Config::inst()->gallery['image_max_height'] ?>;
 
-        var resize = true;
-
         function align() {
-            if (resize) {
-                resize = false;
-                var containerWidth = $("#img_container").width();
-                //alert(containerWidth);
+            var containerWidth = $("#img_container").width();
 
-                var rowWidth = 0;
-                var imgRowWidth = 0;
-                var rowImages = [];
+            var rowWidth = 0;
+            var imgRowWidth = 0;
+            var rowImages = [];
 
-                var row = 0;
+            var row = 0;
 
-                $("#img_container .image .shrink-wrap img").each(function (index, elem) {
-                    elem = $(elem);
-                    var elWrapper = elem.parents(".image");
-                    rowWidth += elem.width();
-                    imgRowWidth += elem.width();
+            $("#img_container .image .shrink-wrap img").each(function (index, elem) {
+                elem = $(elem);
+                var elWrapper = elem.parents(".image");
 
-                    //elWrapper.css("clear", (rowImages.length == 0) ? "left" : "none");
+                var left = 0;
+                var top = row * (height + gap);
 
-                    rowImages.push(elem);
-                    if (rowWidth >= containerWidth) {
-                        $("#img_container").height((row + 1) * (height + gap));
+                rowWidth += elem.width();
+                imgRowWidth += elem.width();
 
-                        elWrapper.addClass("last");
+                rowImages.push(elem);
+                if (rowWidth >= containerWidth) {
+                    //$("#img_container").height((row + 1) * (height + gap));
 
-                        var gapWidths = (rowImages.length - 1) * gap;
-                        var allImagesWidths = containerWidth - gapWidths;
+                    elWrapper.addClass("wrap");
 
-                        var ratio = allImagesWidths / imgRowWidth;
+                    var gapWidths = (rowImages.length - 1) * gap;
+                    var allImagesWidths = containerWidth - gapWidths;
 
-                        var allW = 0;
+                    var ratio = allImagesWidths / imgRowWidth;
 
-                        var left = 0;
+                    $.each(rowImages, function (index, elem) {
+                        var elWrapper = elem.parents(".image");
 
+                        elWrapper.css("top", top + "px");
+
+                        var width = (index != rowImages.length - 1)
+                            ? Math.ceil(elem.width() * ratio)
+                            : (containerWidth - left);
+
+                        elWrapper.width(width);
+
+                        elWrapper.css("left", left + "px");
+                        left += width + gap;
+                    });
+
+                    rowWidth = 0;
+                    imgRowWidth = 0;
+                    rowImages = [];
+                    row++;
+                } else {
+                    elWrapper.removeClass("wrap");
+                    rowWidth += gap;
+
+                    if ($("#img_container .image .shrink-wrap img").length - 1 == index) {
                         $.each(rowImages, function (index, elem) {
                             var elWrapper = elem.parents(".image");
-
-                            elWrapper.css("top", (row * (height + gap)) + "px");
-
-                            var width = (index < rowImages.length - 1) ? Math.ceil(elem.width() * ratio) : (allImagesWidths - allW);
-                            allW += width;
+                            elWrapper.css("top", top + "px");
+                            var width = elem.width();
                             elWrapper.width(width);
-
                             elWrapper.css("left", left + "px");
                             left += width + gap;
                         });
-
-                        rowWidth = 0;
-                        imgRowWidth = 0;
-                        rowImages = [];
-                        row++;
-                    } else {
-                        elWrapper.removeClass("last");
-                        rowWidth += gap;
                     }
-                });
-                resize = true;
-            }
+                }
+            });
         }
 
-        //align();
+        align();
 
         $(window).resize(function () {
             align();
@@ -96,5 +100,8 @@ $this->title = Html::createTitle('главная страница');
 </form>
 
 <div id="img_container">
-    <?php foreach ($values->images as $img): ?><div class="image"><div class="shrink-wrap"><img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>"></div></div><?php endforeach; ?>
+    <?php foreach ($values->images as $img): ?>
+        <div class="image">
+        <div class="shrink-wrap"><img alt="" src="<?php Html::mkLnk('/?action=image&src=' . urlencode($img)) ?>"></div>
+        </div><?php endforeach; ?>
 </div>
