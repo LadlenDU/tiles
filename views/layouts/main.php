@@ -22,6 +22,7 @@ use app\core\Csrf;
         * {
             margin: 0;
             padding: 0;
+            /*border: 0;*/
         }
 
         html, body {
@@ -33,7 +34,8 @@ use app\core\Csrf;
         }
 
         .image {
-            float: left;
+            /*float: left;*/
+            display: inline-block;
             height: <?php echo Config::inst()->gallery['image_max_height'] ?>px;
             margin-right: <?php echo Config::inst()->gallery['gap'] ?>px;
             margin-bottom: <?php echo Config::inst()->gallery['gap'] ?>px;
@@ -42,11 +44,13 @@ use app\core\Csrf;
 
         .image.last {
             margin-right: 0;
-            clear: right;
+            /*clear: right;*/
         }
 
         #img_container {
-            width: 1000px;
+            /*width: 1000px;*/
+            position: absolute;
+            background-color: red;
         }
 
         .image img {
@@ -54,6 +58,7 @@ use app\core\Csrf;
             position: relative;
             top: 0;
             left: 50%;
+            border: 0;
         }
 
         .shrink-wrap {
